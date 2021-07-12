@@ -44,6 +44,14 @@ FloodIt::FloodIt(int boardSize_)
 FloodIt::~FloodIt() {}
 
 /**
+ * Function to return the entire board
+ */
+Matrix<int> *FloodIt::getBoard() const
+{
+    return this->board;
+}
+
+/**
  * Function to generate random numbers
  */
 int FloodIt::getRandomNumber() const
@@ -55,9 +63,9 @@ int FloodIt::getRandomNumber() const
 }
 
 /**
- * Function to initialize the game
+ * Function to initialize the game board
  */
-void FloodIt::initGame() const
+void FloodIt::initializeBoard() const
 {
     // Get the board dimensions
     int rows = this->board->rowSize();
@@ -116,9 +124,10 @@ void FloodIt::initGame() const
 }
 
 /**
- * Function to return the entire board
+ * Function to initialize the game
  */
-Matrix<int> *FloodIt::getBoard() const
+void FloodIt::initGame() const
 {
-    return this->board;
+    // Initialize the game board
+    this->initializeBoard();
 }

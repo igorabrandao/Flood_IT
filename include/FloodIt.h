@@ -18,6 +18,7 @@
 #include <iostream>
 #include "Matrix.h"
 #include "boardColor.h"
+#include "config.h"
 
 using namespace std;
 
@@ -37,9 +38,10 @@ public:
     // ***************************************************
     FloodIt(int boardSize_);       // Class constructor
     ~FloodIt();                    // Class destructor
-    int getRandomNumber() const;   // Function to generate random numbers
-    void initGame() const;         // Function to initialize the game
     Matrix<int> *getBoard() const; // Function to return the entire board
+    int getRandomNumber() const;   // Function to generate random numbers
+    void initializeBoard() const;  // Function to initialize the game board
+    void initGame() const;         // Function to initialize the game
 };
 
 #include "FloodIt.inl"

@@ -184,7 +184,7 @@ namespace GUI
      */
     void imprimeConfig()
     {
-        cout << "\===>CHOOSE THE GAME LEVEL<===";
+        cout << endl << "===>CHOOSE THE GAME LEVEL<===";
         cout << endl
              << "==> 1 - EASY -> 14x14 Board";
         cout << endl
@@ -193,7 +193,7 @@ namespace GUI
              << "==> 3 - HARD -> 25x25 Board";
         cout << endl
              << "==> 4 - Cancel" << endl;
-        cout << "\======================================" << endl
+        cout << endl << "======================================" << endl
              << endl;
     }
 
