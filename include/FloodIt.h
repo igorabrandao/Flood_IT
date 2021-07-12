@@ -20,22 +20,22 @@
 
 using namespace std;
 
-/**
- * Enum with available color options
- */
-enum COLOR
-{
-    BLUE = 0,
-    RED = 1,
-    GREEN = 2,
-    YELLOW = 3,
-    PINK = 4,
-    PURPLE = 5
-};
-
 class FloodIt
 {
 private:
+    /**
+     * Enum with available color options
+     */
+    enum COLOR
+    {
+        BLUE = 0,
+        RED = 1,
+        GREEN = 2,
+        YELLOW = 3,
+        PINK = 4,
+        PURPLE = 5
+    };
+
     // ***************************************************
     // ** Attributes
     // ***************************************************
@@ -47,6 +47,11 @@ public:
     // ***************************************************
     // ** Functions
     // ***************************************************
+    FloodIt(int boardSize_);     // Class constructor
+    ~FloodIt();                  // Class destructor
+    int getRandomNumber() const; // Function to generate random numbers
+    void initGame() const;       // Function to initialize the game
+    void printBoard() const;     // Function to print the board
 };
 
 #include "FloodIt.inl"

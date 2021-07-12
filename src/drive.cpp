@@ -11,6 +11,20 @@ using namespace std;
  */
 int main()
 {
+    int boardSize = 14;
+
+    /* ---------------------------- [ Test Matrix class ] ---------------------------- */
+
+    // Create new Flood-it game
+    FloodIt floodIt(boardSize);
+
+    // Initialize the game
+    floodIt.initGame();
+
+    // Print the current board
+    floodIt.printBoard();
+
+    /* ============================================================================== */
 
     // Finish the program
     cout << "Finished successfully!\n";
