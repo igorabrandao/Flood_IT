@@ -2,6 +2,7 @@
 // ** Implements the functions from FloodIt class
 // ***************************************************
 #include "FloodIt.h"
+#include "boardColor.h"
 
 // To use the assert() function
 #include <cassert>
@@ -59,18 +60,60 @@ int FloodIt::getRandomNumber() const
  */
 void FloodIt::initGame() const
 {
+    // Get the board dimensions
     int rows = this->board->rowSize();
     int cols = this->board->colSize();
+    int boarSize = this->boardSize;
+
+    // Variables to balance the values generation
+    int currentValue, previousValue, valueFreq, maxRepetition = 3;
+    int remainingColors[6] = {(boarSize / 6), (boarSize / 6), (boarSize / 6),
+                              (boarSize / 6), (boarSize / 6), (boarSize / 6)};
 
     // Initialize random seed
     srand(time(NULL));
 
-    // Fill the board with initial values
+    // Fill the board with random initial values
     for (auto i = 0; i < rows; i++)
     {
         for (auto j = 0; j < cols; j++)
         {
-            this->board->add(i, j, this->getRandomNumber());
+            // Receive a random number
+            currentValue = this->getRandomNumber();
+
+            // Logic to balance the values
+            if (remainingColors[currentValue] > 0 && valueFreq <= maxRepetition)
+            {
+                /**
+                 * Scenario of a color under the max repetitions rule
+                 */
+
+                // Reduce the remaining time the current color can appears
+                remainingColors[currentValue]--;
+                
+                // Add the element to the board
+                this->board->add(i, j, currentValue);
+
+                // Increase the repetition of the current color if it applies
+                if (previousValue == currentValue)
+                    valueFreq += 1;
+            }
+            else
+            {
+                /**
+                 * Scenario of an unavailable color since it already was repeated
+                 * more than allowed
+                 */
+                currentValue = this->getRandomNumber();
+                
+                // Add the element to the board
+                this->board->add(i, j, currentValue);
+
+                valueFreq = 0;
+            }
+
+            // Store the previous value
+            previousValue = currentValue;
         }
     }
 }

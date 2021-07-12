@@ -23,19 +23,6 @@ using namespace std;
 class FloodIt
 {
 private:
-    /**
-     * Enum with available color options
-     */
-    enum COLOR
-    {
-        BLUE = 0,
-        RED = 1,
-        GREEN = 2,
-        YELLOW = 3,
-        PINK = 4,
-        PURPLE = 5
-    };
-
     // ***************************************************
     // ** Attributes
     // ***************************************************
