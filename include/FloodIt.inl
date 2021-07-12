@@ -2,7 +2,6 @@
 // ** Implements the functions from FloodIt class
 // ***************************************************
 #include "FloodIt.h"
-#include "boardColor.h"
 
 // To use the assert() function
 #include <cassert>
@@ -67,8 +66,8 @@ void FloodIt::initGame() const
 
     // Variables to balance the values generation
     int currentValue, previousValue, valueFreq, maxRepetition = 3;
-    int remainingColors[6] = {(boarSize / 6), (boarSize / 6), (boarSize / 6),
-                              (boarSize / 6), (boarSize / 6), (boarSize / 6)};
+    int remainingColors[(int)BoardColor::Count] = {(boarSize / 6), (boarSize / 6), (boarSize / 6),
+                                                   (boarSize / 6), (boarSize / 6), (boarSize / 6)};
 
     // Initialize random seed
     srand(time(NULL));
@@ -87,10 +86,8 @@ void FloodIt::initGame() const
                 /**
                  * Scenario of a color under the max repetitions rule
                  */
-
-                // Reduce the remaining time the current color can appears
                 remainingColors[currentValue]--;
-                
+
                 // Add the element to the board
                 this->board->add(i, j, currentValue);
 
@@ -105,7 +102,7 @@ void FloodIt::initGame() const
                  * more than allowed
                  */
                 currentValue = this->getRandomNumber();
-                
+
                 // Add the element to the board
                 this->board->add(i, j, currentValue);
 
@@ -119,9 +116,9 @@ void FloodIt::initGame() const
 }
 
 /**
- * Function to print the board
+ * Function to return the entire board
  */
-void FloodIt::printBoard() const
+Matrix<int> *FloodIt::getBoard() const
 {
-    this->board->print();
+    return this->board;
 }

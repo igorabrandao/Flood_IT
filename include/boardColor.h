@@ -11,7 +11,8 @@ enum class BoardColor
     GREEN = 2,
     YELLOW = 3,
     PINK = 4,
-    PURPLE = 5
+    PURPLE = 5,
+    Count = 6
 };
 
 #endif

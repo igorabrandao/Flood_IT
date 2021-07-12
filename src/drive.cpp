@@ -3,6 +3,7 @@
  */
 #include <iostream>
 #include "FloodIt.h"
+#include "GUI.hpp"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ int main()
 {
     int boardSize = 14;
 
-    /* ---------------------------- [ Test Matrix class ] ---------------------------- */
+    /* ------------------------ [ Flood-it initialization ] -------------------------- */
 
     // Create new Flood-it game
     FloodIt floodIt(boardSize);
@@ -22,7 +23,7 @@ int main()
     floodIt.initGame();
 
     // Print the current board
-    floodIt.printBoard();
+    GUI::printBoard(floodIt.getBoard());
 
     /* ============================================================================== */
 

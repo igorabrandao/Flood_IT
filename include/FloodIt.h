@@ -7,7 +7,7 @@
 	SATARTED ON.: July/2021
 
 	TO COMPILE..: Use makefile.
-	OBS.........: Part of Data Structures Project.
+	OBS.........: Part of Flood-it Project.
 
 	tail UPDATE.: July 12th, 2021.
 	</pre>
@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include "Matrix.h"
+#include "boardColor.h"
 
 using namespace std;
 
@@ -34,11 +35,11 @@ public:
     // ***************************************************
     // ** Functions
     // ***************************************************
-    FloodIt(int boardSize_);     // Class constructor
-    ~FloodIt();                  // Class destructor
-    int getRandomNumber() const; // Function to generate random numbers
-    void initGame() const;       // Function to initialize the game
-    void printBoard() const;     // Function to print the board
+    FloodIt(int boardSize_);       // Class constructor
+    ~FloodIt();                    // Class destructor
+    int getRandomNumber() const;   // Function to generate random numbers
+    void initGame() const;         // Function to initialize the game
+    Matrix<int> *getBoard() const; // Function to return the entire board
 };
 
 #include "FloodIt.inl"
