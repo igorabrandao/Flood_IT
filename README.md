@@ -1,2 +1,2 @@
-# data-structure-cplusplus
-Repository of source-code related to data structure in C++
+# Flood-it project
+Repository containing the Flood-it project meant to test the custom made data-structures.
