@@ -23,7 +23,9 @@ int main()
     floodIt.initGame();
 
     // Print the current board
+    GUI::printHeader();
     GUI::printBoard(floodIt.getBoard());
+    GUI::printFooter();
 
     /* ============================================================================== */
 

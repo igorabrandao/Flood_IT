@@ -20,7 +20,7 @@ using namespace std;
 namespace GUI
 {
     /**
-     * Function to print the board
+     * Method to print the board
      */
     void printBoard(Matrix<int> *board)
     {
@@ -30,8 +30,6 @@ namespace GUI
 
         // Print definitions
         string textBackground, textColor, vDisplay = "";
-
-        //imprimirCabecalho();
 
         // Loop over the board
         for (auto i = 0; i < rows; i++)
@@ -68,7 +66,144 @@ namespace GUI
             }
             cout << endl;
         }
-        //imprimirRodape();
+    }
+
+    /**
+     * Method to print the header
+     */
+    void printHeader()
+    {
+        cout << "FLOOD IT!" << endl;
+        cout << "=========" << endl
+             << endl;
+        cout << "============================================" << endl;
+    }
+
+    /**
+     * Method to print the footer
+     */
+    void printFooter()
+    {
+        cout << "============================================" << endl
+             << endl;
+    }
+
+    /**
+     * Method to generate the main menu
+     */
+    void printMainMenu()
+    {
+        printHeader();
+        cout << "Choose a game option:" << endl
+             << endl;
+        cout << "1) New game" << endl
+             << endl;
+        cout << "2) Settings" << endl
+             << endl;
+        cout << "3) Credits" << endl
+             << endl;
+        cout << "4) Exit" << endl
+             << endl;
+        printHeader();
+    }
+
+    /**
+     * Method to generate the play menu
+     */
+    void printPlayMenu()
+    {
+        // Possible options
+        cout << endl
+             << "PLAY OPTIONS:" << endl;
+        cout << "====================" << endl;
+
+        cout << color::rize(" 0: BLUE ", "Blue", "Blue");
+        cout << color::rize(" 1: RED ", "Red", "Red");
+        cout << color::rize(" 2: GREEN ", "Green", "Green");
+        cout << color::rize(" 3: YELLOW ", "Yellow", "Yellow");
+        cout << color::rize(" 4: MAGENTA ", "Light Magenta", "Light Magenta");
+        cout << color::rize(" 5: CYAN ", "Cyan", "Cyan");
+        cout << endl
+             << endl;
+    }
+
+    /**
+     * Method to generate the game options
+     */
+    void printGameOptions()
+    {
+        cout << endl
+             << "GAME OPTIONS:" << endl;
+        cout << "====================" << endl;
+        cout << "n: Start game" << endl
+             << endl;
+        cout << "q: End game" << endl
+             << endl;
+        cout << "s: Save game" << endl
+             << endl;
+        cout << "o: Load saved game" << endl
+             << endl;
+        cout << "v: Go to main menu" << endl
+             << endl;
+    }
+
+    /**
+     * Method to generate the game credits
+     */
+    void printCredits()
+    {
+        cout << endl
+             << "//**********************************************************************";
+        cout << endl
+             << "//**********  IGOR A. BRANDAO ©";
+        cout << endl
+             << "//**********";
+        cout << endl
+             << "//**********  PGM: FLOOD IT";
+        cout << endl
+             << "//**********";
+        cout << endl
+             << "//**********  LOCATION: NATAL/RN";
+        cout << endl
+             << "//**********";
+        cout << endl
+             << "//**********  VERSION:	1.0";
+        cout << endl
+             << "//**********";
+        cout << endl
+             << "//**********  July/2021 - Creation";
+        cout << endl
+             << "//**********";
+        cout << endl
+             << "//**********************************************************************" << endl
+             << endl;
+    }
+
+    /**
+     * Method to print the game settings
+     */
+    void imprimeConfig()
+    {
+        cout << "\===>CHOOSE THE GAME LEVEL<===";
+        cout << endl
+             << "==> 1 - EASY -> 14x14 Board";
+        cout << endl
+             << "==> 2 - MODERATE -> 20x20 Board";
+        cout << endl
+             << "==> 3 - HARD -> 25x25 Board";
+        cout << endl
+             << "==> 4 - Cancel" << endl;
+        cout << "\======================================" << endl
+             << endl;
+    }
+
+    /**
+     * Method to clear the console
+     */
+    void clearConsole()
+    {
+        system("clear");
+        system("cls");
     }
 }
 
