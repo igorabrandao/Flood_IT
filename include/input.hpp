@@ -19,6 +19,22 @@ namespace Input
 {
      string filename = "./config/config.txt";
 
+#ifdef _WIN32
+#include <windows.h>
+
+     void sleep(unsigned milliseconds)
+     {
+          Sleep(milliseconds);
+     }
+#else
+#include <unistd.h>
+
+     void sleep(unsigned milliseconds)
+     {
+          usleep(milliseconds * 1000); // takes microseconds
+     }
+#endif
+
      /**
       * Function to handle the user input
       */
@@ -47,7 +63,78 @@ namespace Input
       */
      void inputMatchMenu(FloodIt game_)
      {
-          /* TODO */
+          char option = ' ';
+
+          do
+          {
+               // Input data
+               printf("Choose <n> <q> <s> <o> <v>: ");
+               scanf("%c", &option);
+
+               // Check the inputted data
+               switch (option)
+               {
+               // Invalid option
+               case 0:
+                    option = 99;
+                    printf("Invalid option!\n\n");
+                    break;
+               // New game
+               case 'n':
+                    /*if (status_ == 1)
+                    {
+                         inicializarTabuleiro(tabuleiro_, config_->tam_tabuleiro);
+                    }
+                    jogar(tabuleiro_, config_, 0);*/
+                    break;
+               // Quit game
+               case 'q':
+                    printf("\nFinishing...\n\n");
+                    break;
+               // Save game
+               case 's':
+                    //salvarPartida(tabuleiro_, config_);
+                    printf("\n\n***GAME SAVED SUCCESSFULLY!***\n\n");
+                    sleep(2000);
+                    //jogar(tabuleiro_, config_, numJogadas_);
+                    break;
+               // Load previous game
+               case 'o':
+                    /*numJogadas_ = carregarPartida(tabuleiro_, config_, &tamanho_);
+
+                    // Verifica o tamanho da matriz
+                    if (tamanho_ == config_->tam_tabuleiro)
+                    {
+                         printf("\n\n***JOGO CARREGADO COM SUCESSO!***\n\n");
+                         sleep(2000);
+                         jogar(tabuleiro_, config_, numJogadas_);
+                         break;
+                    }
+                    else
+                    {
+                         GUI::clearConsole();
+                         printf("\nSua Matriz Salva eh diferente da atual!\n");
+                         printf("Configure sua matriz para o tamanho %ix%i\n", tamanho_, tamanho_);
+                         sleep(3000);
+
+                         GUI::clearConsole();
+                         GUI::printMainMenu();
+                         inputMainMenu(game_);
+                         break;
+                    }*/
+               // Go back to main menu
+               case 'v':
+                    GUI::clearConsole();
+                    GUI::printMainMenu();
+                    inputMainMenu(game_);
+                    break;
+               // Invalid option
+               default:
+                    option = 99;
+                    printf("Invalid option!\n\n");
+                    break;
+               }
+          } while (option == 99);
      }
 
      /**

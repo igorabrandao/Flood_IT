@@ -142,6 +142,15 @@ void FloodIt::setGameSettings(int level_, int nPlay_, int boardSize_)
 /**
  * Function to return the game settings
  */
-CONFIG *FloodIt::getGameSetting() {
+CONFIG *FloodIt::getGameSetting()
+{
     return &this->gameSettings;
+}
+
+/**
+ * Function to load a previous game
+ */
+void FloodIt::loadGame(FloodIt previousGame_)
+{
+    // TODO
 }

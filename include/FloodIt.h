@@ -43,11 +43,12 @@ public:
     // ***************************************************
     // ** Functions
     // ***************************************************
-    FloodIt(int boardSize_);             // Class constructor
-    ~FloodIt();                          // Class destructor
-    Matrix<int> *getBoard() const;       // Function to return the entire board
-    void setGameSettings(int, int, int); // Function to set-up the game settings
-    CONFIG *getGameSetting();            // Function to return the game settings
+    FloodIt(int boardSize_);              // Class constructor
+    ~FloodIt();                           // Class destructor
+    Matrix<int> *getBoard() const;        // Function to return the entire board
+    void setGameSettings(int, int, int);  // Function to set-up the game settings
+    CONFIG *getGameSetting();             // Function to return the game settings
+    void loadGame(FloodIt previousGame_); // Function to load a previous game
 };
 
 #include "FloodIt.inl"
