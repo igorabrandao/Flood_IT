@@ -5,7 +5,6 @@
 // ** Implements the functions related to GUI
 // ***************************************************
 #include <iostream>
-#include <cassert>
 
 #include "color.hpp"
 #include "boardColor.h"
@@ -22,11 +21,11 @@ namespace GUI
     /**
      * Method to print the board
      */
-    void printBoard(Matrix<int> *board)
+    void printBoard(Matrix<int> *board_)
     {
         // Get the board attributes
-        int rows = board->rowSize();
-        int cols = board->colSize();
+        int rows = board_->rowSize();
+        int cols = board_->colSize();
 
         // Print definitions
         string textBackground, textColor, vDisplay = "";
@@ -36,7 +35,7 @@ namespace GUI
         {
             for (auto j = 0; j < cols; j++)
             {
-                switch (board->getElemAt(i, j))
+                switch (board_->getElemAt(i, j))
                 {
                 case 0:
                     textBackground = textColor = "Blue";
@@ -59,7 +58,7 @@ namespace GUI
                 }
 
                 // Prepare the value to display
-                vDisplay = " " + std::to_string(board->getElemAt(i, j));
+                vDisplay = " " + std::to_string(board_->getElemAt(i, j));
 
                 // Display the coloured tile
                 cout << color::rize(vDisplay, textColor, textBackground);
@@ -94,17 +93,12 @@ namespace GUI
     void printMainMenu()
     {
         printHeader();
-        cout << "Choose a game option:" << endl
-             << endl;
-        cout << "1) New game" << endl
-             << endl;
-        cout << "2) Settings" << endl
-             << endl;
-        cout << "3) Credits" << endl
-             << endl;
-        cout << "4) Exit" << endl
-             << endl;
-        printHeader();
+        cout << "Choose a game option:" << endl << endl;
+        cout << "1) New game" << endl;
+        cout << "2) Settings" << endl;
+        cout << "3) Credits" << endl;
+        cout << "4) Exit" << endl;
+        printFooter();
     }
 
     /**

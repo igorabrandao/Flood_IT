@@ -25,6 +25,9 @@ FloodIt::FloodIt(int boardSize_)
     {
         // Allocate the memory for the board
         this->board = new Matrix<int>(boardSize_, boardSize_);
+
+        // Initialize the game board
+        this->initializeBoard();
     }
     catch (const bad_alloc &exception)
     {
@@ -121,13 +124,4 @@ void FloodIt::initializeBoard() const
             previousValue = currentValue;
         }
     }
-}
-
-/**
- * Function to initialize the game
- */
-void FloodIt::initGame() const
-{
-    // Initialize the game board
-    this->initializeBoard();
 }

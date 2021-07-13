@@ -32,6 +32,12 @@ private:
     int nPlay;          // Number of played turns
     Matrix<int> *board; // The FloodIt board itself
 
+    // ***************************************************
+    // ** Functions
+    // ***************************************************
+    int getRandomNumber() const;  // Function to generate random numbers
+    void initializeBoard() const; // Function to initialize the game board
+
 public:
     // ***************************************************
     // ** Functions
@@ -39,9 +45,6 @@ public:
     FloodIt(int boardSize_);       // Class constructor
     ~FloodIt();                    // Class destructor
     Matrix<int> *getBoard() const; // Function to return the entire board
-    int getRandomNumber() const;   // Function to generate random numbers
-    void initializeBoard() const;  // Function to initialize the game board
-    void initGame() const;         // Function to initialize the game
 };
 
 #include "FloodIt.inl"
