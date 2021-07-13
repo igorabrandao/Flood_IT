@@ -7,6 +7,7 @@
 #include <iostream>
 #include "FloodIt.h"
 #include "GUI.hpp"
+#include "file.hpp"
 
 using namespace std;
 
@@ -16,6 +17,8 @@ using namespace std;
 
 namespace Input
 {
+     string filename = "./config/config.txt";
+
      /**
       * Function to handle the user input
       */
@@ -40,11 +43,82 @@ namespace Input
      }
 
      /**
+      * Match menu handler
+      */
+     void inputMatchMenu(FloodIt game_)
+     {
+          /* TODO */
+     }
+
+     /**
+      * Difficult level menu handler
+      */
+     void inputDifficultLevel(FloodIt game_)
+     {
+          int difficultLevel = 0;
+
+          // Display the game settings
+          GUI::printSettings();
+
+          // Handle the user input
+          do
+          {
+               // Input data
+               handleInput("Choose between 1 - 4: ", &difficultLevel);
+
+               // Check the chosen level
+               switch (difficultLevel)
+               {
+               // Easy
+               case 1:
+                    // Set-up the game settings
+                    game_.setGameSettings(1, 25, 14);
+
+                    // Update the config file
+                    File::createConfigFile(filename.c_str(), game_.getGameSetting());
+
+                    /* Reinicia o jogo com as novas configurações*/
+                    //inicializarJogo();
+                    break;
+               /* Médio */
+               case 2:
+                    // Set-up the game settings
+                    game_.setGameSettings(2, 35, 20);
+
+                    // Update the config file
+                    File::createConfigFile(filename.c_str(), game_.getGameSetting());
+
+                    /* Reinicia o jogo com as novas configurações*/
+                    //inicializarJogo();
+                    break;
+               /* Difícil */
+               case 3:
+                    // Set-up the game settings
+                    game_.setGameSettings(3, 45, 25);
+
+                    // Update the config file
+                    File::createConfigFile(filename.c_str(), game_.getGameSetting());
+
+                    /* Reinicia o jogo com as novas configurações*/
+                    //inicializarJogo();
+               /* Cancelar */
+               case 4:
+                    /* Reinicia o jogo com as novas configurações*/
+                    //inicializarJogo();
+               /* Opção inválida */
+               default:
+                    difficultLevel = 99;
+                    printf("Invalid option!\n\n");
+                    break;
+               }
+          } while (difficultLevel == 99);
+     }
+
+     /**
       * Method to handle the main menu input
       */
      void inputMainMenu(FloodIt game_)
      {
-          /* Declarações no escopo local */
           int option = 0;
 
           do
@@ -62,17 +136,16 @@ namespace Input
                     break;
                // New game
                case 1:
-                    GUI::clearConsole();
-                    /*inicializarTabuleiro(tabuleiro_, config_->tam_tabuleiro);
-                    imprimirTabuleiro(tabuleiro_, config_->tam_tabuleiro);
-                    gerarMenuOpcoesJogo();
-                    entrarJogada(tabuleiro_, config_, 0);*/
+                    GUI::clearConsole();               // Prepare the console
+                    GUI::printBoard(game_.getBoard()); // Print the game board
+                    GUI::printPlayMenu();              // Display the play options
+                    inputMatchMenu(game_);             // Receive the user play
                     break;
                // Settings
                case 2:
                     GUI::clearConsole();
-                    /*gerarMenuPrincipal();
-                    configurarDificuldade(config_);*/
+                    GUI::printSettings();
+                    inputDifficultLevel(game_);
                     break;
                // Show credits
                case 3:
@@ -93,24 +166,6 @@ namespace Input
                     break;
                }
           } while (option == 99);
-     }
-
-     /**
-      * Match menu handler
-      */
-     int inputMatchMenu(FloodIt game_)
-     {
-          /* TODO */
-          return 0;
-     }
-
-     /**
-      * Difficult level menu handler
-      */
-     int inputDifficultLevel(FloodIt game_)
-     {
-          /* TODO */
-          return 0;
      }
 }
 

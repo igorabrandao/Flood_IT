@@ -1,0 +1,3 @@
+difficultLevel = 3
+maxNPlay = 45
+boardSize = 25

@@ -28,9 +28,10 @@ private:
     // ***************************************************
     // ** Attributes
     // ***************************************************
-    int boardSize;      // Board size
-    int nPlay;          // Number of played turns
-    Matrix<int> *board; // The FloodIt board itself
+    int boardSize;       // Board size
+    int nPlay;           // Number of played turns
+    Matrix<int> *board;  // The FloodIt board itself
+    CONFIG gameSettings; // Struct with the game settings
 
     // ***************************************************
     // ** Functions
@@ -42,9 +43,11 @@ public:
     // ***************************************************
     // ** Functions
     // ***************************************************
-    FloodIt(int boardSize_);       // Class constructor
-    ~FloodIt();                    // Class destructor
-    Matrix<int> *getBoard() const; // Function to return the entire board
+    FloodIt(int boardSize_);             // Class constructor
+    ~FloodIt();                          // Class destructor
+    Matrix<int> *getBoard() const;       // Function to return the entire board
+    void setGameSettings(int, int, int); // Function to set-up the game settings
+    CONFIG *getGameSetting();            // Function to return the game settings
 };
 
 #include "FloodIt.inl"

@@ -28,6 +28,9 @@ FloodIt::FloodIt(int boardSize_)
 
         // Initialize the game board
         this->initializeBoard();
+
+        // Define the default game settings
+        this->setGameSettings(1, 25, 14);
     }
     catch (const bad_alloc &exception)
     {
@@ -124,4 +127,21 @@ void FloodIt::initializeBoard() const
             previousValue = currentValue;
         }
     }
+}
+
+/**
+ * Function to set-up the game settings
+ */
+void FloodIt::setGameSettings(int level_, int nPlay_, int boardSize_)
+{
+    this->gameSettings.difficultLevel = level_;
+    this->gameSettings.maxNPlay = nPlay_;
+    this->gameSettings.boardSize = boardSize_;
+}
+
+/**
+ * Function to return the game settings
+ */
+CONFIG *FloodIt::getGameSetting() {
+    return &this->gameSettings;
 }
