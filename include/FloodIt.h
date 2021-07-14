@@ -60,7 +60,6 @@ public:
     Matrix<int> *getBoard() const;        // Function to return the entire board
     void setGameSettings(int, int, int);  // Function to set-up the game settings
     CONFIG *getGameSetting();             // Function to return the game settings
-    void loadGame(FloodIt previousGame_); // Function to load a previous game
     void restartGame();                   // Function to restart the game
     void floodBoard(int, int, int, int);  // Function to implement the flood mechanics
     int isWinner();                       // Function to check if the player won the game

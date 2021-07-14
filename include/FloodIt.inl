@@ -151,14 +151,6 @@ CONFIG *FloodIt::getGameSetting()
 }
 
 /**
- * Function to load a previous game
- */
-void FloodIt::loadGame(FloodIt previousGame_)
-{
-    // TODO
-}
-
-/**
  * Function to restart the game
  */
 void FloodIt::restartGame()
