@@ -4,13 +4,11 @@
 // ***************************************************
 // ** Implements the functions related to Input
 // ***************************************************
-#include <iostream> // std::cout, std::endl
-#include <thread>   // std::this_thread::sleep_for
-#include <chrono>   // std::chrono::seconds
+#include <iostream>
 #include "FloodIt.h"
 #include "GUI.cpp"
 #include "file.cpp"
-#include "move.cpp"
+#include "playInterface.cpp"
 
 using namespace std;
 
@@ -52,6 +50,7 @@ namespace Input
      {
           char option = ' ';
 
+          // Game input loop
           do
           {
                if (isblank(userInput_))
@@ -59,6 +58,10 @@ namespace Input
                     // Input data
                     printf("Choose <n> <q> <s> <o> <v>: ");
                     scanf("%c", &option);
+               }
+               else
+               {
+                    option = userInput_;
                }
 
                // Check the inputted data
@@ -71,52 +74,29 @@ namespace Input
                     break;
                // New game
                case 'n':
-                    /*if (status_ == 1)
-                    {
-                         inicializarTabuleiro(tabuleiro_, config_->tam_tabuleiro);
-                    }
-                    jogar(tabuleiro_, config_, 0);*/
+                    game_->restartGame();       // Prepare the new game state
+                    GUI::clearConsole();        // Prepare the console
+                    GUI::printBoard(game_);     // Print the game board
+                    GUI::printPlayMenu();       // Display the play options
+                    Playinterface::play(game_); // Handle the player game moves
                     break;
                // Quit game
                case 'q':
                     printf("\nFinishing...\n\n");
+                    exit(EXIT_SUCCESS);
                     break;
                // Save game
                case 's':
-                    //salvarPartida(tabuleiro_, config_);
-                    printf("\n\n***GAME SAVED SUCCESSFULLY!***\n\n");
-                    std::this_thread::sleep_for(std::chrono::seconds(2));
-                    //jogar(tabuleiro_, config_, numJogadas_);
+                    Playinterface::saveGame(game_); // Save the current game
                     break;
                // Load previous game
                case 'o':
-                    /*numJogadas_ = carregarPartida(tabuleiro_, config_, &tamanho_);
-
-                    // Verifica o tamanho da matriz
-                    if (tamanho_ == config_->tam_tabuleiro)
-                    {
-                         printf("\n\n***JOGO CARREGADO COM SUCESSO!***\n\n");
-                         std::this_thread::sleep_for (std::chrono::seconds(2));
-                         jogar(tabuleiro_, config_, numJogadas_);
-                         break;
-                    }
-                    else
-                    {
-                         GUI::clearConsole();
-                         printf("\nSua Matriz Salva eh diferente da atual!\n");
-                         printf("Configure sua matriz para o tamanho %ix%i\n", tamanho_, tamanho_);
-                         std::this_thread::sleep_for (std::chrono::seconds(3));
-
-                         GUI::clearConsole();
-                         GUI::printMainMenu();
-                         inputMainMenu(game_);
-                         break;
-                    }*/
+                    break;
                // Go back to main menu
                case 'v':
                     GUI::clearConsole();
                     GUI::printMainMenu();
-                    //inputMainMenu(game_);
+                    Input::inputMainMenu(game_);
                     break;
                // Invalid option
                default:
@@ -125,6 +105,11 @@ namespace Input
                     break;
                }
           } while (option == 99);
+
+          // When the game interaction ends, go back to the main menu
+          GUI::clearConsole();
+          GUI::printMainMenu();
+          Input::inputMainMenu(game_);
      }
 
      /**
@@ -213,23 +198,20 @@ namespace Input
                     break;
                // New game
                case 1:
-                    GUI::clearConsole();    // Prepare the console
-                    GUI::printBoard(game_); // Print the game board
-                    GUI::printPlayMenu();   // Display the play options
-                    Move::play(game_);      // Handle the player game moves
+                    Input::inputMatchMenu(game_, 'n'); // Call the game input passing the New Game as param
                     break;
                // Settings
                case 2:
                     GUI::clearConsole();
                     GUI::printSettings();
-                    inputDifficultLevel(game_);
+                    Input::inputDifficultLevel(game_);
                     break;
                // Show credits
                case 3:
                     GUI::clearConsole();
-                    /*imprimeCreditos();
-                    gerarMenuPrincipal();
-                    entrarMenu(tabuleiro_, config_);*/
+                    GUI::printCredits();
+                    GUI::printMainMenu();
+                    Input::inputMainMenu(game_);
                     break;
                // Exit game
                case 4:

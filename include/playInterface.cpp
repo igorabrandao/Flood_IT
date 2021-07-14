@@ -1,13 +1,14 @@
-#ifndef MOVE_HPP
-#define MOVE_HPP
+#ifndef PLAY_INTERFACE_HPP
+#define PLAY_INTERFACE_HPP
 
 // ***************************************************
 // ** Implements the functions related to Input
 // ***************************************************
 #include <iostream>
+#include <thread> // std::this_thread::sleep_for
+#include <chrono> // std::chrono::seconds
 #include "FloodIt.h"
 #include "GUI.cpp"
-//#include "input.cpp"
 
 using namespace std;
 
@@ -15,8 +16,60 @@ using namespace std;
 // ** Functions
 // ***************************************************
 
-namespace Move
+namespace Playinterface
 {
+     /**
+      * Match menu handler
+      */
+     int handleMatchMenu(FloodIt *game_, char *userInput_)
+     {
+          // Game input loop
+          do
+          {
+               if (isblank(userInput_[0]))
+               {
+                    // Input data
+                    printf("Choose <n> <q> <s> <o> <v>: ");
+                    scanf("%c", userInput_);
+               }
+
+               // Check the inputted data
+               switch (*userInput_)
+               {
+               // New game
+               case 'n':
+                    game_->restartGame();       // Prepare the new game state
+                    GUI::clearConsole();        // Prepare the console
+                    GUI::printBoard(game_);     // Print the game board
+                    GUI::printPlayMenu();       // Display the play options
+                    Playinterface::play(game_); // Handle the player game moves
+                    break;
+               // Quit game
+               case 'q':
+                    printf("\nFinishing...\n\n");
+                    exit(EXIT_SUCCESS);
+                    break;
+               // Save game
+               case 's':
+                    Playinterface::saveGame(game_); // Save the current game
+                    break;
+               // Load previous game
+               case 'o':
+                    break;
+               // Go back to main menu
+               case 'v':
+                    break;
+               // Invalid option
+               default:
+                    userInput_[0] = 'k';
+                    printf("Invalid option!\n\n");
+                    break;
+               }
+          } while (*userInput_ == 'k');
+
+          return EXIT_SUCCESS;
+     }
+
      /**
       * Function to handle when the player wins
       */
@@ -30,7 +83,7 @@ namespace Move
           // Restart the game
           game_->restartGame();
 
-          //Input::inputMatchMenu(game_);
+          Playinterface::handleMatchMenu(game_, nullptr);
      }
 
      /**
@@ -42,7 +95,7 @@ namespace Move
           GUI::printBoard(game_);
           printf("\n\n***YOU LOSE, TRY AGAIN!***\n\n\n");
           GUI::printGameOptions();
-          //Input::inputMatchMenu(game_);
+          Playinterface::handleMatchMenu(game_, nullptr);
      }
 
      /**
@@ -57,15 +110,17 @@ namespace Move
           if (!game_->isWinner() && !game_->getRemainingTurns())
           {
                // The player lost the game :(
-               Move::handleLoser(game_);
+               Playinterface::handleLoser(game_);
                return 0;
           }
           else if (game_->isWinner() && game_->getRemainingTurns() >= 0)
           {
                // The player won the game :)
-               Move::handleWinner(game_);
+               Playinterface::handleWinner(game_);
                return 1;
-          } else {
+          }
+          else
+          {
                // The players neither won or lost the game yet
                return -1;
           }
@@ -124,7 +179,7 @@ namespace Move
                     uSelectedColor = 5;
                     break;
                default:
-                    //Input::inputMatchMenu(game_, userInput);
+                    Playinterface::handleMatchMenu(game_, &userInput);
                     break;
                }
           } while (userInput == 'k');
@@ -132,7 +187,7 @@ namespace Move
           // Check if the user input is inside the valid range
           if ((uSelectedColor >= minRange) && (uSelectedColor <= maxRange))
           {
-               // Try to execute the player move
+               // Try to execute the player Playinterface
                game_->floodBoard(currentRow, currentCol, game_->getBoard()->getElemAt(currentRow, currentCol), uSelectedColor);
 
                // Increase the number of turns
@@ -142,11 +197,51 @@ namespace Move
                game_->setRemainingTurns(game_->getRemainingTurns() - 1);
 
                // Check if the game ended and handle it accordling
-               if (Move::handleGameEnd(game_) == -1)
+               if (Playinterface::handleGameEnd(game_) == -1)
                {
-                    Move::play(game_);
+                    Playinterface::play(game_);
                }
           }
+     }
+
+     /**
+      * Function to save the current game
+      */
+     void saveGame(FloodIt *game_)
+     {
+          //salvarPartida(tabuleiro_, config_);
+          printf("\n\n***GAME SAVED SUCCESSFULLY!***\n\n");
+          std::this_thread::sleep_for(std::chrono::seconds(2));
+          //jogar(tabuleiro_, config_, numJogadas_);
+     }
+
+     /**
+      * Function to load a saved game
+      */
+     void loadGame(FloodIt *game_)
+     {
+          /*numJogadas_ = carregarPartida(tabuleiro_, config_, &tamanho_);
+
+          // Verifica o tamanho da matriz
+          if (tamanho_ == config_->tam_tabuleiro)
+          {
+               printf("\n\n***JOGO CARREGADO COM SUCESSO!***\n\n");
+               std::this_thread::sleep_for (std::chrono::seconds(2));
+               jogar(tabuleiro_, config_, numJogadas_);
+               break;
+          }
+          else
+          {
+               GUI::clearConsole();
+               printf("\nSua Matriz Salva eh diferente da atual!\n");
+               printf("Configure sua matriz para o tamanho %ix%i\n", tamanho_, tamanho_);
+               std::this_thread::sleep_for (std::chrono::seconds(3));
+
+               GUI::clearConsole();
+               GUI::printMainMenu();
+               inputMainMenu(game_);
+               break;
+          }*/
      }
 }
 

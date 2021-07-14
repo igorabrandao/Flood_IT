@@ -137,7 +137,7 @@ namespace GUI
           cout << "====================" << endl;
           cout << "n: Start game" << endl
                << endl;
-          cout << "q: End game" << endl
+          cout << "q: Quit game" << endl
                << endl;
           cout << "s: Save game" << endl
                << endl;
