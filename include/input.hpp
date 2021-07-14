@@ -4,7 +4,9 @@
 // ***************************************************
 // ** Implements the functions related to Input
 // ***************************************************
-#include <iostream>
+#include <iostream>       // std::cout, std::endl
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
 #include "FloodIt.h"
 #include "GUI.hpp"
 #include "file.hpp"
@@ -18,22 +20,6 @@ using namespace std;
 namespace Input
 {
      string filename = "./config/config.txt";
-
-#ifdef _WIN32
-#include <windows.h>
-
-     void sleep(unsigned milliseconds)
-     {
-          Sleep(milliseconds);
-     }
-#else
-#include <unistd.h>
-
-     void sleep(unsigned milliseconds)
-     {
-          usleep(milliseconds * 1000); // takes microseconds
-     }
-#endif
 
      /**
       * Function to handle the user input
@@ -61,15 +47,18 @@ namespace Input
      /**
       * Match menu handler
       */
-     void inputMatchMenu(FloodIt game_)
+     void inputMatchMenu(FloodIt game_, char userInput_ = ' ')
      {
           char option = ' ';
 
           do
           {
-               // Input data
-               printf("Choose <n> <q> <s> <o> <v>: ");
-               scanf("%c", &option);
+               if (isblank(userInput_))
+               {
+                    // Input data
+                    printf("Choose <n> <q> <s> <o> <v>: ");
+                    scanf("%c", &option);
+               }
 
                // Check the inputted data
                switch (option)
@@ -95,7 +84,7 @@ namespace Input
                case 's':
                     //salvarPartida(tabuleiro_, config_);
                     printf("\n\n***GAME SAVED SUCCESSFULLY!***\n\n");
-                    sleep(2000);
+                    std::this_thread::sleep_for (std::chrono::seconds(2));
                     //jogar(tabuleiro_, config_, numJogadas_);
                     break;
                // Load previous game
@@ -106,7 +95,7 @@ namespace Input
                     if (tamanho_ == config_->tam_tabuleiro)
                     {
                          printf("\n\n***JOGO CARREGADO COM SUCESSO!***\n\n");
-                         sleep(2000);
+                         std::this_thread::sleep_for (std::chrono::seconds(2));
                          jogar(tabuleiro_, config_, numJogadas_);
                          break;
                     }
@@ -115,7 +104,7 @@ namespace Input
                          GUI::clearConsole();
                          printf("\nSua Matriz Salva eh diferente da atual!\n");
                          printf("Configure sua matriz para o tamanho %ix%i\n", tamanho_, tamanho_);
-                         sleep(3000);
+                         std::this_thread::sleep_for (std::chrono::seconds(3));
 
                          GUI::clearConsole();
                          GUI::printMainMenu();
@@ -126,7 +115,7 @@ namespace Input
                case 'v':
                     GUI::clearConsole();
                     GUI::printMainMenu();
-                    inputMainMenu(game_);
+                    //inputMainMenu(game_);
                     break;
                // Invalid option
                default:
@@ -223,10 +212,11 @@ namespace Input
                     break;
                // New game
                case 1:
-                    GUI::clearConsole();               // Prepare the console
-                    GUI::printBoard(game_.getBoard()); // Print the game board
-                    GUI::printPlayMenu();              // Display the play options
-                    inputMatchMenu(game_);             // Receive the user play
+                    GUI::clearConsole();    // Prepare the console
+                    GUI::printBoard(game_); // Print the game board
+                    GUI::printPlayMenu();   // Display the play options
+                    //inputMatchMenu(game_);  // Receive the user play (not sure about this one)
+                    // PLAY!
                     break;
                // Settings
                case 2:

@@ -5,10 +5,9 @@
 // ** Implements the functions related to GUI
 // ***************************************************
 #include <iostream>
-
+//#include "FloodIt.h"
 #include "color.hpp"
 #include "boardColor.h"
-#include "Matrix.h"
 
 using namespace std;
 
@@ -41,11 +40,11 @@ namespace GUI
      /**
      * Method to print the board
      */
-     void printBoard(Matrix<int> *board_)
+     void printBoard(FloodIt game_)
      {
           // Get the board attributes
-          int rows = board_->rowSize();
-          int cols = board_->colSize();
+          int rows = game_.getBoard()->rowSize();
+          int cols = game_.getBoard()->colSize();
 
           // Print definitions
           string textBackground, textColor, vDisplay = "";
@@ -58,7 +57,7 @@ namespace GUI
           {
                for (auto j = 0; j < cols; j++)
                {
-                    switch (board_->getElemAt(i, j))
+                    switch (game_.getBoard()->getElemAt(i, j))
                     {
                     case 0:
                          textBackground = textColor = "Blue";
@@ -81,7 +80,7 @@ namespace GUI
                     }
 
                     // Prepare the value to display
-                    vDisplay = " " + std::to_string(board_->getElemAt(i, j));
+                    vDisplay = " " + std::to_string(game_.getBoard()->getElemAt(i, j));
 
                     // Display the coloured tile
                     cout << color::rize(vDisplay, textColor, textBackground);
@@ -118,12 +117,12 @@ namespace GUI
                << "PLAY OPTIONS:" << endl;
           cout << "====================" << endl;
 
-          cout << color::rize(" 0: BLUE ", "Blue", "Blue");
-          cout << color::rize(" 1: RED ", "Red", "Red");
-          cout << color::rize(" 2: GREEN ", "Green", "Green");
-          cout << color::rize(" 3: YELLOW ", "Yellow", "Yellow");
-          cout << color::rize(" 4: MAGENTA ", "Light Magenta", "Light Magenta");
-          cout << color::rize(" 5: CYAN ", "Cyan", "Cyan");
+          cout << color::rize(" 0 ", "White", "Blue");
+          cout << color::rize(" 1 ", "White", "Red");
+          cout << color::rize(" 2 ", "White", "Green");
+          cout << color::rize(" 3 ", "Dark Gray", "Yellow");
+          cout << color::rize(" 4 ", "White", "Light Magenta");
+          cout << color::rize(" 5 ", "White", "Cyan");
           cout << endl
                << endl;
      }
@@ -200,14 +199,23 @@ namespace GUI
                << endl;
      }
 
-     /**
-     * Method to clear the console
-     */
+#ifdef _WIN32
+#include <windows.h>
+
+     void clearConsole()
+     {
+          system("cls");
+     }
+
+#else
+#include <unistd.h>
+
      void clearConsole()
      {
           system("clear");
-          system("cls");
      }
+
+#endif
 }
 
 #endif

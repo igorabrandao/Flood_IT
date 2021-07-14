@@ -19,7 +19,6 @@ FloodIt::FloodIt(int boardSize_)
 {
     // Set the initial attributes
     this->boardSize = boardSize_;
-    this->nPlay = 0;
 
     try
     {
@@ -134,9 +133,13 @@ void FloodIt::initializeBoard() const
  */
 void FloodIt::setGameSettings(int level_, int nPlay_, int boardSize_)
 {
-    this->gameSettings.difficultLevel = level_;
-    this->gameSettings.maxNPlay = nPlay_;
-    this->gameSettings.boardSize = boardSize_;
+    // Set the basic game definitions
+    this->gameSettings.difficultLevel = level_; // Difficult level
+    this->gameSettings.maxNPlay = nPlay_;       // Max number of turns
+    this->gameSettings.boardSize = boardSize_;  // The game board size
+
+    this->nPlay = 0;                                                    // The current number of turns
+    this->remainingTurns = (this->gameSettings.maxNPlay - this->nPlay); // The remaining turns
 }
 
 /**
@@ -153,4 +156,186 @@ CONFIG *FloodIt::getGameSetting()
 void FloodIt::loadGame(FloodIt previousGame_)
 {
     // TODO
+}
+
+/**
+ * Function to manage the current game
+ */
+void FloodIt::play()
+{
+    char userInput = ' ';
+    int uSelectedColor = -1;
+    int currentRow, currentCol = 0;
+
+    // Define the play range
+    int minRange = 0;
+    int maxRange = (int)BoardColor::Count - 1;
+
+    // Recreate the updated board
+    GUI::clearConsole();
+    GUI::printBoard(*this);
+    GUI::printGameOptions();
+    GUI::printPlayMenu();
+
+    // Print the current game stats
+    cout << "\nNumber of turns: " << this->nPlay;
+    cout << "\nRemaining turns: " << this->remainingTurns;
+    /* *************************************** */
+
+    // Process the user input
+    do
+    {
+        // Choose the color
+        cout << "\n\nChoose a color (0 - 5): ";
+        scanf(" %c", &userInput);
+
+        // Handle the user input as ascII
+        switch (userInput)
+        {
+        case '0':
+            uSelectedColor = 0;
+            break;
+        case '1':
+            uSelectedColor = 1;
+            break;
+        case '2':
+            uSelectedColor = 2;
+            break;
+        case '3':
+            uSelectedColor = 3;
+            break;
+        case '4':
+            uSelectedColor = 4;
+            break;
+        case '5':
+            uSelectedColor = 5;
+            break;
+        default:
+            Input::inputMatchMenu(*this, userInput);
+            break;
+        }
+    } while (userInput == 'k');
+
+    // Check if the user input is inside the valid range
+    if ((uSelectedColor >= minRange) && (uSelectedColor < maxRange))
+    {
+        // Try to execute the player move
+        this->floodBoard(currentRow, currentCol, this->getBoard()->getElemAt(currentRow, currentCol), uSelectedColor);
+
+        // Increase the number of turns
+        this->nPlay++;
+
+        // Decrease the remaining turns
+        this->remainingTurns--;
+
+        /**
+         * Checks if the player has reached the maximum number of moves and 
+         * has not flooded the board
+         */
+        if (!this->isWinner() && !this->remainingTurns)
+        {
+            // The player lost the game :(
+            GUI::clearConsole();
+            GUI::printBoard(*this);
+            printf("\n\n***YOU LOSE, TRY AGAIN!***\n\n\n");
+            GUI::printGameOptions();
+            Input::inputMatchMenu(*this);
+        }
+        else if (this->isWinner() && this->remainingTurns >= 0)
+        {
+            // The player won the game :)
+            GUI::clearConsole();
+            GUI::printBoard(*this);
+            printf("\n\n***CONGRATULATION, YOU WIN!!!***\n\n\n");
+            GUI::printGameOptions();
+
+            // Restart the game
+            this->initializeBoard();
+            this->setGameSettings(this->getGameSetting()->difficultLevel,
+                                  this->getGameSetting()->maxNPlay,
+                                  this->getGameSetting()->boardSize);
+
+            Input::inputMatchMenu(*this);
+        }
+        else
+        {
+            // Update the game
+            this->play();
+        }
+    }
+}
+
+/**
+ * Function to traverse the board and implement the flood mechanics
+ */
+void FloodIt::floodBoard(int row_, int col_, int previousColor_, int newColor_)
+{
+    // Check if the previous move is different from the current one
+    if (previousColor_ != newColor_)
+    {
+        // Check the edge case (0,0) == previousColor
+        if (this->getBoard()->getElemAt(row_, col_) == previousColor_)
+        {
+            /* --- HANDLE ALL CASES --- */
+
+            // The current row and col position is updated to the color entered by the user.
+            this->getBoard()->getElemAt(row_, col_) = newColor_;
+
+            /*
+             * tests if the row is not the last, if true and row+1, (bottom row), 
+             * is equal to the old color calls the function recursively with
+             * row+1 and col as parameters.
+             */
+            if (row_ < this->boardSize - 1 && this->getBoard()->getElemAt(row_ + 1, col_) == previousColor_)
+                floodBoard(row_ + 1, col_, previousColor_, newColor_);
+
+            /*
+             * tests if the col is not the last, if true and col +1 (right col) is equal to the old color,
+             * calls the function recursively passing the value of row and col+1 as parameters.
+             */
+            if (col_ < this->boardSize - 1 && this->getBoard()->getElemAt(row_, col_ + 1) == previousColor_)
+                floodBoard(row_, col_ + 1, previousColor_, newColor_);
+
+            /*
+             * tests if the row is not the first, if true and if the cell of row-1, (top row), is equal to the old color,
+             * calls the function recursively assigning row_-1 and col_ as parameters.
+             */
+            if (row_ > 0 && this->getBoard()->getElemAt(row_ - 1, col_) == previousColor_)
+                floodBoard(row_ - 1, col_, previousColor_, newColor_);
+
+            /*
+             * tests if the col is not the first, if true and if col_-1, (left col), is equal to the old color,
+             * calls the function recursively assigning row_ and col_- 1 as parameters.
+             */
+            if (col_ > 0 && this->getBoard()->getElemAt(row_, col_ - 1) == previousColor_)
+                floodBoard(row_, col_ - 1, previousColor_, newColor_);
+        }
+    }
+}
+
+/**
+ * Function to check if the player won the game
+ */
+int FloodIt::isWinner()
+{
+    // Initial parameters
+    int winnerStatus = 0;
+    int refColor = this->getBoard()->getElemAt(0, 0);
+
+    // Get the board dimensions
+    int boardRows = this->getBoard()->rowSize();
+    int boardCols = this->getBoard()->colSize();
+
+    // Check if the entire board has just one color
+    for (auto i = 0; i < boardRows; i++)
+    {
+        for (auto j = 0; j < boardCols; j++)
+        {
+            if (this->getBoard()->getElemAt(i, j) == refColor)
+                winnerStatus = 1;
+            else
+                return 0;
+        }
+    }
+    return winnerStatus;
 }

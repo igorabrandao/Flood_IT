@@ -5,8 +5,16 @@
 // ** Implements the functions related to File
 // ***************************************************
 #include <stdio.h>
-#include <unistd.h>
 #include "config.h"
+
+#ifdef __linux__
+#include <unistd.h>
+#else
+inline int access(const char *pathname, int mode)
+{
+     return _access(pathname, mode);
+}
+#endif
 
 using namespace std;
 
@@ -21,7 +29,7 @@ namespace File
       */
      int checkConfigFile(const char *fname)
      {
-          return (access(fname, F_OK) != -1 ? 1 : 0);
+          //return (access(fname, F_OK) != -1 ? 1 : 0);
      }
 
      /**

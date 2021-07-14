@@ -31,12 +31,7 @@ int main()
 
     // Handle the main menu input
     Input::inputMainMenu(floodIt);
-
-    // Print the current board
-    /*GUI::printHeader();
-    GUI::printBoard(this->getBoard());
-    GUI::printFooter();*/
-
+    
     /* ============================================================================== */
 
     // Finish the program
