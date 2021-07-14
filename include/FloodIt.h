@@ -19,8 +19,6 @@
 #include "Matrix.h"
 #include "boardColor.h"
 #include "config.h"
-#include "GUI.hpp"
-#include "input.hpp"
 
 using namespace std;
 
@@ -44,6 +42,17 @@ private:
 
 public:
     // ***************************************************
+    // ** Getter & setter
+    // ***************************************************
+    int getNumberOfMoves() { return nPlay; };
+    void setNumberOfMoves(int moves_) { nPlay = moves_; };
+
+    int getRemainingTurns() { return remainingTurns; };
+    void setRemainingTurns(int value_) { remainingTurns = value_; };
+
+    int getBoardSize() { return boardSize; };
+
+    // ***************************************************
     // ** Functions
     // ***************************************************
     FloodIt(int boardSize_);              // Class constructor
@@ -52,7 +61,7 @@ public:
     void setGameSettings(int, int, int);  // Function to set-up the game settings
     CONFIG *getGameSetting();             // Function to return the game settings
     void loadGame(FloodIt previousGame_); // Function to load a previous game
-    void play();                          // Function to manage the current game
+    void restartGame();                   // Function to restart the game
     void floodBoard(int, int, int, int);  // Function to implement the flood mechanics
     int isWinner();                       // Function to check if the player won the game
 };

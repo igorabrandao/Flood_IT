@@ -30,6 +30,7 @@ namespace File
      int checkConfigFile(const char *fname)
      {
           //return (access(fname, F_OK) != -1 ? 1 : 0);
+          return 0;
      }
 
      /**

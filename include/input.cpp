@@ -4,12 +4,13 @@
 // ***************************************************
 // ** Implements the functions related to Input
 // ***************************************************
-#include <iostream>       // std::cout, std::endl
-#include <thread>         // std::this_thread::sleep_for
-#include <chrono>         // std::chrono::seconds
+#include <iostream> // std::cout, std::endl
+#include <thread>   // std::this_thread::sleep_for
+#include <chrono>   // std::chrono::seconds
 #include "FloodIt.h"
-#include "GUI.hpp"
-#include "file.hpp"
+#include "GUI.cpp"
+#include "file.cpp"
+#include "move.cpp"
 
 using namespace std;
 
@@ -47,7 +48,7 @@ namespace Input
      /**
       * Match menu handler
       */
-     void inputMatchMenu(FloodIt game_, char userInput_ = ' ')
+     void inputMatchMenu(FloodIt *game_, char userInput_ = ' ')
      {
           char option = ' ';
 
@@ -84,7 +85,7 @@ namespace Input
                case 's':
                     //salvarPartida(tabuleiro_, config_);
                     printf("\n\n***GAME SAVED SUCCESSFULLY!***\n\n");
-                    std::this_thread::sleep_for (std::chrono::seconds(2));
+                    std::this_thread::sleep_for(std::chrono::seconds(2));
                     //jogar(tabuleiro_, config_, numJogadas_);
                     break;
                // Load previous game
@@ -129,7 +130,7 @@ namespace Input
      /**
       * Difficult level menu handler
       */
-     void inputDifficultLevel(FloodIt game_)
+     void inputDifficultLevel(FloodIt *game_)
      {
           int difficultLevel = 0;
 
@@ -148,10 +149,10 @@ namespace Input
                // Easy
                case 1:
                     // Set-up the game settings
-                    game_.setGameSettings(1, 25, 14);
+                    game_->setGameSettings(1, 25, 14);
 
                     // Update the config file
-                    File::createConfigFile(filename.c_str(), game_.getGameSetting());
+                    File::createConfigFile(filename.c_str(), game_->getGameSetting());
 
                     /* Reinicia o jogo com as novas configurações*/
                     //inicializarJogo();
@@ -159,10 +160,10 @@ namespace Input
                /* Médio */
                case 2:
                     // Set-up the game settings
-                    game_.setGameSettings(2, 35, 20);
+                    game_->setGameSettings(2, 35, 20);
 
                     // Update the config file
-                    File::createConfigFile(filename.c_str(), game_.getGameSetting());
+                    File::createConfigFile(filename.c_str(), game_->getGameSetting());
 
                     /* Reinicia o jogo com as novas configurações*/
                     //inicializarJogo();
@@ -170,10 +171,10 @@ namespace Input
                /* Difícil */
                case 3:
                     // Set-up the game settings
-                    game_.setGameSettings(3, 45, 25);
+                    game_->setGameSettings(3, 45, 25);
 
                     // Update the config file
-                    File::createConfigFile(filename.c_str(), game_.getGameSetting());
+                    File::createConfigFile(filename.c_str(), game_->getGameSetting());
 
                     /* Reinicia o jogo com as novas configurações*/
                     //inicializarJogo();
@@ -193,7 +194,7 @@ namespace Input
      /**
       * Method to handle the main menu input
       */
-     void inputMainMenu(FloodIt game_)
+     void inputMainMenu(FloodIt *game_)
      {
           int option = 0;
 
@@ -205,7 +206,7 @@ namespace Input
                // Validate the input
                switch ((int)option)
                {
-               /* Opção inválida */
+               // Invalid option
                case 0:
                     option = 99;
                     printf("Invalid option!\n\n");
@@ -215,8 +216,7 @@ namespace Input
                     GUI::clearConsole();    // Prepare the console
                     GUI::printBoard(game_); // Print the game board
                     GUI::printPlayMenu();   // Display the play options
-                    //inputMatchMenu(game_);  // Receive the user play (not sure about this one)
-                    // PLAY!
+                    Move::play(game_);      // Handle the player game moves
                     break;
                // Settings
                case 2:

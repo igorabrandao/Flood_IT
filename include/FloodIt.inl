@@ -159,110 +159,17 @@ void FloodIt::loadGame(FloodIt previousGame_)
 }
 
 /**
- * Function to manage the current game
+ * Function to restart the game
  */
-void FloodIt::play()
+void FloodIt::restartGame()
 {
-    char userInput = ' ';
-    int uSelectedColor = -1;
-    int currentRow, currentCol = 0;
+    // Fill the board with new values
+    this->initializeBoard();
 
-    // Define the play range
-    int minRange = 0;
-    int maxRange = (int)BoardColor::Count - 1;
-
-    // Recreate the updated board
-    GUI::clearConsole();
-    GUI::printBoard(*this);
-    GUI::printGameOptions();
-    GUI::printPlayMenu();
-
-    // Print the current game stats
-    cout << "\nNumber of turns: " << this->nPlay;
-    cout << "\nRemaining turns: " << this->remainingTurns;
-    /* *************************************** */
-
-    // Process the user input
-    do
-    {
-        // Choose the color
-        cout << "\n\nChoose a color (0 - 5): ";
-        scanf(" %c", &userInput);
-
-        // Handle the user input as ascII
-        switch (userInput)
-        {
-        case '0':
-            uSelectedColor = 0;
-            break;
-        case '1':
-            uSelectedColor = 1;
-            break;
-        case '2':
-            uSelectedColor = 2;
-            break;
-        case '3':
-            uSelectedColor = 3;
-            break;
-        case '4':
-            uSelectedColor = 4;
-            break;
-        case '5':
-            uSelectedColor = 5;
-            break;
-        default:
-            Input::inputMatchMenu(*this, userInput);
-            break;
-        }
-    } while (userInput == 'k');
-
-    // Check if the user input is inside the valid range
-    if ((uSelectedColor >= minRange) && (uSelectedColor < maxRange))
-    {
-        // Try to execute the player move
-        this->floodBoard(currentRow, currentCol, this->getBoard()->getElemAt(currentRow, currentCol), uSelectedColor);
-
-        // Increase the number of turns
-        this->nPlay++;
-
-        // Decrease the remaining turns
-        this->remainingTurns--;
-
-        /**
-         * Checks if the player has reached the maximum number of moves and 
-         * has not flooded the board
-         */
-        if (!this->isWinner() && !this->remainingTurns)
-        {
-            // The player lost the game :(
-            GUI::clearConsole();
-            GUI::printBoard(*this);
-            printf("\n\n***YOU LOSE, TRY AGAIN!***\n\n\n");
-            GUI::printGameOptions();
-            Input::inputMatchMenu(*this);
-        }
-        else if (this->isWinner() && this->remainingTurns >= 0)
-        {
-            // The player won the game :)
-            GUI::clearConsole();
-            GUI::printBoard(*this);
-            printf("\n\n***CONGRATULATION, YOU WIN!!!***\n\n\n");
-            GUI::printGameOptions();
-
-            // Restart the game
-            this->initializeBoard();
-            this->setGameSettings(this->getGameSetting()->difficultLevel,
-                                  this->getGameSetting()->maxNPlay,
-                                  this->getGameSetting()->boardSize);
-
-            Input::inputMatchMenu(*this);
-        }
-        else
-        {
-            // Update the game
-            this->play();
-        }
-    }
+    // Turn the game settings to default
+    this->setGameSettings(this->getGameSetting()->difficultLevel,
+                           this->getGameSetting()->maxNPlay,
+                           this->getGameSetting()->boardSize);
 }
 
 /**

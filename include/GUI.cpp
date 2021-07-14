@@ -5,7 +5,7 @@
 // ** Implements the functions related to GUI
 // ***************************************************
 #include <iostream>
-//#include "FloodIt.h"
+#include "FloodIt.h"
 #include "color.hpp"
 #include "boardColor.h"
 
@@ -40,11 +40,11 @@ namespace GUI
      /**
      * Method to print the board
      */
-     void printBoard(FloodIt game_)
+     void printBoard(FloodIt *game_)
      {
           // Get the board attributes
-          int rows = game_.getBoard()->rowSize();
-          int cols = game_.getBoard()->colSize();
+          int rows = game_->getBoard()->rowSize();
+          int cols = game_->getBoard()->colSize();
 
           // Print definitions
           string textBackground, textColor, vDisplay = "";
@@ -57,7 +57,7 @@ namespace GUI
           {
                for (auto j = 0; j < cols; j++)
                {
-                    switch (game_.getBoard()->getElemAt(i, j))
+                    switch (game_->getBoard()->getElemAt(i, j))
                     {
                     case 0:
                          textBackground = textColor = "Blue";
@@ -80,7 +80,7 @@ namespace GUI
                     }
 
                     // Prepare the value to display
-                    vDisplay = " " + std::to_string(game_.getBoard()->getElemAt(i, j));
+                    vDisplay = " " + std::to_string(game_->getBoard()->getElemAt(i, j));
 
                     // Display the coloured tile
                     cout << color::rize(vDisplay, textColor, textBackground);

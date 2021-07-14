@@ -5,8 +5,8 @@
 
 // Project dependencies
 #include "FloodIt.h"
-#include "GUI.hpp"
-#include "input.hpp"
+#include "GUI.cpp"
+#include "input.cpp"
 
 using namespace std;
 
@@ -30,7 +30,7 @@ int main()
     GUI::printMainMenu();
 
     // Handle the main menu input
-    Input::inputMainMenu(floodIt);
+    Input::inputMainMenu(&floodIt);
     
     /* ============================================================================== */
 
