@@ -130,7 +130,7 @@ namespace Move
           } while (userInput == 'k');
 
           // Check if the user input is inside the valid range
-          if ((uSelectedColor >= minRange) && (uSelectedColor < maxRange))
+          if ((uSelectedColor >= minRange) && (uSelectedColor <= maxRange))
           {
                // Try to execute the player move
                game_->floodBoard(currentRow, currentCol, game_->getBoard()->getElemAt(currentRow, currentCol), uSelectedColor);
