@@ -1,3 +1,4 @@
+
 /*!
 	<PRE>
 	SOURCE FILE : GameInterface.h
@@ -18,8 +19,9 @@
 #include <iostream>
 #include <thread> // std::this_thread::sleep_for
 #include <chrono> // std::chrono::seconds
+#include "FloodIt.h"
 #include "GUI.cpp"
-//#include "Input.h"
+#include "File.h"
 
 using namespace std;
 
@@ -30,18 +32,39 @@ public:
     // ***************************************************
     // ** Attributes
     // ***************************************************
-    Input *inputHandler;
+    //Input *inputHandler;
 
     // ***************************************************
     // ** Functions
     // ***************************************************
-    void play(FloodIt *game_);
+    int play(FloodIt *game_);
     void handleWinner(FloodIt *game_);
     void handleLoser(FloodIt *game_);
     int handleGameEnd(FloodIt *game_);
     void saveGame(FloodIt *game_);
     void loadGame(FloodIt *game_);
+    void inputMatchMenu(FloodIt *game_, char *);
+};
+
+class Input
+{
+private:
+public:
+    // ***************************************************
+    // ** Attributes
+    // ***************************************************
+    File *fileHandler;
+    GameInterface *gameInterface;
+    string filename = "./config/config.txt";
+
+    // ***************************************************
+    // ** Functions
+    // ***************************************************
+    int handleInput(const char *prompt, int *i);
+    void inputDifficultLevel(FloodIt *game_);
+    void inputMainMenu(FloodIt *game_);
 };
 
 #include "GameInterface.cpp"
+#include "Input.cpp"
 #endif

@@ -5,8 +5,7 @@
 
 // Project dependencies
 #include "FloodIt.h"
-#include "Input.h"
-#include "GUI.cpp"
+#include "GameInterface.h"
 
 using namespace std;
 
@@ -25,9 +24,6 @@ int main()
     /* ============================================================================== */
 
     /* -------------------------- [ GUI & input handler ] --------------------------- */
-
-    // Print the main menu
-    GUI::printMainMenu();
 
     // Handle the main menu input
     Input input;

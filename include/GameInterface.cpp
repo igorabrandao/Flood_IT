@@ -11,7 +11,7 @@
 /**
  * Function to manage the user movements
  */
-void GameInterface::play(FloodIt *game_)
+int GameInterface::play(FloodIt *game_)
 {
      char userInput = ' ';
      int uSelectedColor = -1;
@@ -36,8 +36,10 @@ void GameInterface::play(FloodIt *game_)
      do
      {
           // Choose the color
-          printf("\n\nChoose a color (%i - %i): ", minRange, maxRange);
+          cout << "\n\nChoose a color (" << minRange << " - " << maxRange << "): ";
           scanf(" %c", &userInput);
+
+          cout << "hey: " << userInput << endl;
 
           // Handle the user input as ascII
           switch (userInput)
@@ -61,7 +63,10 @@ void GameInterface::play(FloodIt *game_)
                uSelectedColor = 5;
                break;
           default:
-               this->inputHandler->inputMatchMenu(game_, &userInput);
+               if (userInput == 'v')
+                    return 99; // Go back to the main menu
+               else
+                    this->inputMatchMenu(game_, &userInput);
                break;
           }
      } while (userInput == 'k');
@@ -84,6 +89,9 @@ void GameInterface::play(FloodIt *game_)
                this->play(game_);
           }
      }
+
+     // Finish the play interaction
+     return EXIT_SUCCESS;
 }
 
 /**
@@ -93,7 +101,7 @@ void GameInterface::handleWinner(FloodIt *game_)
 {
      GUI::clearConsole();
      GUI::printBoard(game_);
-     printf("\n\n***CONGRATULATION, YOU WIN!!!***\n\n\n");
+     cout << "\n\n***CONGRATULATION, YOU WIN!!!***\n\n\n";
      GUI::printGameOptions();
 }
 
@@ -104,7 +112,7 @@ void GameInterface::handleLoser(FloodIt *game_)
 {
      GUI::clearConsole();
      GUI::printBoard(game_);
-     printf("\n\n***YOU LOSE, TRY AGAIN!***\n\n\n");
+     cout << "\n\n***YOU LOSE, TRY AGAIN!***\n\n\n";
      GUI::printGameOptions();
 }
 
@@ -142,7 +150,7 @@ int GameInterface::handleGameEnd(FloodIt *game_)
 void GameInterface::saveGame(FloodIt *game_)
 {
      //salvarPartida(tabuleiro_, config_);
-     printf("\n\n***GAME SAVED SUCCESSFULLY!***\n\n");
+     cout << "\n\n***GAME SAVED SUCCESSFULLY!***\n\n";
      std::this_thread::sleep_for(std::chrono::seconds(2));
      //jogar(tabuleiro_, config_, numJogadas_);
 }
@@ -157,7 +165,7 @@ void GameInterface::loadGame(FloodIt *game_)
           // Verifica o tamanho da matriz
           if (tamanho_ == config_->tam_tabuleiro)
           {
-               printf("\n\n***JOGO CARREGADO COM SUCESSO!***\n\n");
+               cout << "\n\n***JOGO CARREGADO COM SUCESSO!***\n\n";
                std::this_thread::sleep_for (std::chrono::seconds(2));
                jogar(tabuleiro_, config_, numJogadas_);
                break;
@@ -165,8 +173,8 @@ void GameInterface::loadGame(FloodIt *game_)
           else
           {
                GUI::clearConsole();
-               printf("\nSua Matriz Salva eh diferente da atual!\n");
-               printf("Configure sua matriz para o tamanho %ix%i\n", tamanho_, tamanho_);
+               cout << "\nSua Matriz Salva eh diferente da atual!\n";
+               cout << "Configure sua matriz para o tamanho %ix%i\n", tamanho_, tamanho_);
                std::this_thread::sleep_for (std::chrono::seconds(3));
 
                GUI::clearConsole();
@@ -174,4 +182,58 @@ void GameInterface::loadGame(FloodIt *game_)
                inputMainMenu(game_);
                break;
           }*/
+}
+
+/**
+ * Match menu handler
+ */
+void GameInterface::inputMatchMenu(FloodIt *game_, char *userInput_)
+{
+     // Game input loop
+     do
+     {
+          if (isblank(userInput_[0]))
+          {
+               // Input data
+               cout << "Choose <n> <q> <s> <o> <v>: ";
+               scanf("%c", userInput_);
+          }
+
+          // Check the inputted data
+          switch (*userInput_)
+          {
+          // Invalid option
+          case 0:
+               userInput_[0] = 9;
+               cout << "Invalid option!\n\n";
+               break;
+          // New game
+          case 'n':
+               game_->restartGame();   // Prepare the new game state
+               GUI::clearConsole();    // Prepare the console
+               GUI::printBoard(game_); // Print the game board
+               GUI::printPlayMenu();   // Display the play options
+               this->play(game_);      // Handle the player game moves
+               break;
+          // Quit game
+          case 'q':
+               cout << "\nFinishing...\n\n";
+               break;
+          // Save game
+          case 's':
+               this->saveGame(game_); // Save the current game
+               break;
+          // Load previous game
+          case 'o':
+               break;
+          // Go back to main menu
+          case 'v':
+               break;
+          // Invalid option
+          default:
+               userInput_[0] = 9;
+               cout << "Invalid option!\n\n";
+               break;
+          }
+     } while (userInput_[0] == 9);
 }

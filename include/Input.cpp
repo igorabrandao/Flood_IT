@@ -1,7 +1,7 @@
 // ***************************************************
 // ** Implements the functions related to Input class
 // ***************************************************
-#include "Input.h"
+#include "GameInterface.h"
 
 // ***************************************************
 // ** Functions
@@ -19,7 +19,7 @@ int Input::handleInput(const char *prompt, int *i)
      do
      {
           if (Invalid)
-               fputs("Invalid option!\n\n", stdout);
+               //fputs("Invalid option!\n\n", stdout);
           Invalid = 1;
           fputs(prompt, stdout);
           if (NULL == fgets(buffer, sizeof(buffer), stdin))
@@ -81,14 +81,14 @@ void Input::inputDifficultLevel(FloodIt *game_)
 
                /* Reinicia o jogo com as novas configurações*/
                //inicializarJogo();
-          /* Cancelar */
+          // Cancel the operation
           case 4:
-               /* Reinicia o jogo com as novas configurações*/
-               //inicializarJogo();
-          /* Opção inválida */
+               // Go back to the main menu
+               this->inputMainMenu(game_);
+          // Invalid option
           default:
                difficultLevel = 99;
-               printf("Invalid option!\n\n");
+               cout << "Invalid option!\n\n";
                break;
           }
      } while (difficultLevel == 99);
@@ -103,6 +103,10 @@ void Input::inputMainMenu(FloodIt *game_)
 
      do
      {
+          // Print the main menu
+          GUI::clearConsole();
+          GUI::printMainMenu();
+
           // Input data
           handleInput("Choose between 1 - 4: ", &option);
 
@@ -112,15 +116,15 @@ void Input::inputMainMenu(FloodIt *game_)
           // Invalid option
           case 0:
                option = 99;
-               printf("Invalid option!\n\n");
+               cout << "Invalid option!\n\n";
                break;
           // New game
           case 1:
-               game_->restartGame();             // Prepare the new game state
-               GUI::clearConsole();              // Prepare the console
-               GUI::printBoard(game_);           // Print the game board
-               GUI::printPlayMenu();             // Display the play options
-               this->gameInterface->play(game_); // Handle the player game moves
+               game_->restartGame();                      // Prepare the new game state
+               GUI::clearConsole();                       // Prepare the console
+               GUI::printBoard(game_);                    // Print the game board
+               GUI::printPlayMenu();                      // Display the play options
+               option = this->gameInterface->play(game_); // Handle the player game moves
                break;
           // Settings
           case 2:
@@ -137,75 +141,13 @@ void Input::inputMainMenu(FloodIt *game_)
                break;
           // Exit game
           case 4:
-               printf("\nFinishing...\n\n");
-               exit(0);
+               cout << "\nFinishing...\n\n";
                break;
           // Invalid option
           default:
                option = 99;
-               printf("Invalid option!\n\n");
+               cout << "Invalid option!\n\n";
                break;
           }
      } while (option == 99);
-}
-
-/**
- * Match menu handler
- */
-void Input::inputMatchMenu(FloodIt *game_, char *userInput_)
-{
-     // Game input loop
-     do
-     {
-          if (isblank(userInput_[0]))
-          {
-               // Input data
-               printf("Choose <n> <q> <s> <o> <v>: ");
-               scanf("%c", userInput_);
-          }
-
-          // Check the inputted data
-          switch (*userInput_)
-          {
-          // Invalid option
-          case 0:
-               userInput_[0] = 9;
-               printf("Invalid option!\n\n");
-               break;
-          // New game
-          case 'n':
-               game_->restartGame();             // Prepare the new game state
-               GUI::clearConsole();              // Prepare the console
-               GUI::printBoard(game_);           // Print the game board
-               GUI::printPlayMenu();             // Display the play options
-               this->gameInterface->play(game_); // Handle the player game moves
-               break;
-          // Quit game
-          case 'q':
-               printf("\nFinishing...\n\n");
-               exit(EXIT_SUCCESS);
-               break;
-          // Save game
-          case 's':
-               this->gameInterface->saveGame(game_); // Save the current game
-               break;
-          // Load previous game
-          case 'o':
-               break;
-          // Go back to main menu
-          case 'v':
-               userInput_[0] = 9;
-               break;
-          // Invalid option
-          default:
-               userInput_[0] = 9;
-               printf("Invalid option!\n\n");
-               break;
-          }
-     } while (userInput_[0] == 9);
-
-     // When the game interaction ends, go back to the main menu
-     GUI::clearConsole();
-     GUI::printMainMenu();
-     this->inputMainMenu(game_);
 }
