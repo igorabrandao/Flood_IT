@@ -84,7 +84,7 @@ void Input::inputDifficultLevel(FloodIt *game_)
           // Cancel the operation
           case 4:
                // Go back to the main menu
-               this->inputMainMenu(game_);
+               this->inputMainMenu(game_, true);
           // Invalid option
           default:
                difficultLevel = 99;
@@ -97,14 +97,18 @@ void Input::inputDifficultLevel(FloodIt *game_)
 /**
  * Method to handle the main menu input
  */
-void Input::inputMainMenu(FloodIt *game_)
+void Input::inputMainMenu(FloodIt *game_, bool clearConsole_)
 {
      int option = 0;
 
      do
      {
           // Print the main menu
-          GUI::clearConsole();
+          if (clearConsole_)
+               GUI::clearConsole();
+          else
+               clearConsole_ = true;
+
           GUI::printMainMenu();
 
           // Input data
@@ -136,12 +140,12 @@ void Input::inputMainMenu(FloodIt *game_)
           case 3:
                GUI::clearConsole();
                GUI::printCredits();
-               GUI::printMainMenu();
-               Input::inputMainMenu(game_);
+               this->inputMainMenu(game_, false);
                break;
           // Exit game
           case 4:
                cout << "\nFinishing...\n\n";
+               exit(EXIT_SUCCESS);
                break;
           // Invalid option
           default:

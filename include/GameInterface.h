@@ -62,7 +62,7 @@ public:
     // ***************************************************
     int handleInput(const char *prompt, int *i);
     void inputDifficultLevel(FloodIt *game_);
-    void inputMainMenu(FloodIt *game_);
+    void inputMainMenu(FloodIt *game_, bool);
 };
 
 #include "GameInterface.cpp"

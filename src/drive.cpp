@@ -27,7 +27,7 @@ int main()
 
     // Handle the main menu input
     Input input;
-    input.inputMainMenu(&floodIt);
+    input.inputMainMenu(&floodIt, true);
     
     /* ============================================================================== */
 

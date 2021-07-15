@@ -179,7 +179,7 @@ void GameInterface::loadGame(FloodIt *game_)
 
                GUI::clearConsole();
                GUI::printMainMenu();
-               inputMainMenu(game_);
+               inputMainMenu(game_, true);
                break;
           }*/
 }
