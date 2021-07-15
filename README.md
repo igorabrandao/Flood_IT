@@ -7,7 +7,7 @@ Repository containing the Flood-it project meant to test the [custom made data-s
 ## Overview
 
 <p align="center">
-  <img style="width:250px;" src="https://igorabrandao.com.br/igorabrandao/flood_it/Flood_It.png" alt="Flood-It game"/>
+  <img style="width:200px;" src="https://igorabrandao.com.br/igorabrandao/flood_it/Flood_It.png" alt="Flood-It game"/>
 </p>
 
 “Flood it” is a turn-based puzzle game whose objective is to “flood” an area. defined by a 14x14 matrix in a maximum of 25 turns. The "flood" occurs by filling the matrix cells with a single color. For this, the player must choose, at each turn, a color to be "placed" in the upper left corner. This color will replace (fill) the from the cell in the upper left corner, the entire adjacent area formed by cells that have the same color. If the player can fill the entire matrix in up to 25 moves, he wins, otherwise loses.
