@@ -39,8 +39,6 @@ int GameInterface::play(FloodIt *game_)
           cout << "\n\nChoose a color (" << minRange << " - " << maxRange << "): ";
           scanf(" %c", &userInput);
 
-          cout << "hey: " << userInput << endl;
-
           // Handle the user input as ascII
           switch (userInput)
           {
@@ -209,11 +207,13 @@ void GameInterface::inputMatchMenu(FloodIt *game_, char *userInput_)
                break;
           // New game
           case 'n':
-               game_->restartGame();   // Prepare the new game state
-               GUI::clearConsole();    // Prepare the console
-               GUI::printBoard(game_); // Print the game board
-               GUI::printPlayMenu();   // Display the play options
-               this->play(game_);      // Handle the player game moves
+               game_->restartGame(game_->getGameSetting()->difficultLevel,
+                                  game_->getGameSetting()->maxNPlay,
+                                  game_->getGameSetting()->boardSize); // Prepare the new game state
+               GUI::clearConsole();                                    // Prepare the console
+               GUI::printBoard(game_);                                 // Print the game board
+               GUI::printPlayMenu();                                   // Display the play options
+               this->play(game_);                                      // Handle the player game moves
                break;
           // Quit game
           case 'q':

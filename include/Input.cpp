@@ -20,7 +20,7 @@ int Input::handleInput(const char *prompt, int *i)
      {
           if (Invalid)
                //fputs("Invalid option!\n\n", stdout);
-          Invalid = 1;
+               Invalid = 1;
           fputs(prompt, stdout);
           if (NULL == fgets(buffer, sizeof(buffer), stdin))
                return 1;
@@ -38,6 +38,7 @@ void Input::inputDifficultLevel(FloodIt *game_)
      int difficultLevel = 0;
 
      // Display the game settings
+     GUI::clearConsole();
      GUI::printSettings();
 
      // Handle the user input
@@ -52,35 +53,35 @@ void Input::inputDifficultLevel(FloodIt *game_)
           // Easy
           case 1:
                // Set-up the game settings
-               game_->setGameSettings(1, 25, 14);
+               game_->restartGame(1, 25, 14);
 
                // Update the config file
                this->fileHandler->createConfigFile(this->filename.c_str(), game_->getGameSetting());
 
-               /* Reinicia o jogo com as novas configurações*/
-               //inicializarJogo();
+               // Go back to the main menu
+               this->inputMainMenu(game_, true);
                break;
           /* Médio */
           case 2:
                // Set-up the game settings
-               game_->setGameSettings(2, 35, 20);
+               game_->restartGame(2, 35, 20);
 
                // Update the config file
                this->fileHandler->createConfigFile(this->filename.c_str(), game_->getGameSetting());
 
-               /* Reinicia o jogo com as novas configurações*/
-               //inicializarJogo();
+               // Go back to the main menu
+               this->inputMainMenu(game_, true);
                break;
           /* Difícil */
           case 3:
                // Set-up the game settings
-               game_->setGameSettings(3, 45, 25);
+               game_->restartGame(3, 45, 25);
 
                // Update the config file
                this->fileHandler->createConfigFile(this->filename.c_str(), game_->getGameSetting());
 
-               /* Reinicia o jogo com as novas configurações*/
-               //inicializarJogo();
+               // Go back to the main menu
+               this->inputMainMenu(game_, true);
           // Cancel the operation
           case 4:
                // Go back to the main menu
@@ -124,11 +125,13 @@ void Input::inputMainMenu(FloodIt *game_, bool clearConsole_)
                break;
           // New game
           case 1:
-               game_->restartGame();                      // Prepare the new game state
-               GUI::clearConsole();                       // Prepare the console
-               GUI::printBoard(game_);                    // Print the game board
-               GUI::printPlayMenu();                      // Display the play options
-               option = this->gameInterface->play(game_); // Handle the player game moves
+               game_->restartGame(game_->getGameSetting()->difficultLevel,
+                                  game_->getGameSetting()->maxNPlay,
+                                  game_->getGameSetting()->boardSize); // Prepare the new game state
+               GUI::clearConsole();                                    // Prepare the console
+               GUI::printBoard(game_);                                 // Print the game board
+               GUI::printPlayMenu();                                   // Display the play options
+               option = this->gameInterface->play(game_);              // Handle the player game moves
                break;
           // Settings
           case 2:

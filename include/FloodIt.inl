@@ -29,7 +29,7 @@ FloodIt::FloodIt(int boardSize_)
         this->initializeBoard();
 
         // Define the default game settings
-        this->setGameSettings(1, 25, 14);
+        this->setGameSettings(1, 25, boardSize_);
     }
     catch (const bad_alloc &exception)
     {
@@ -75,6 +75,9 @@ void FloodIt::initializeBoard() const
     // Get the board dimensions
     int rows = this->board->rowSize();
     int cols = this->board->colSize();
+
+    cout << " rows: " << rows << " cols: " << cols << endl;
+
     int boarSize = this->boardSize;
 
     // Variables to balance the values generation
@@ -153,15 +156,27 @@ CONFIG *FloodIt::getGameSetting()
 /**
  * Function to restart the game
  */
-void FloodIt::restartGame()
+void FloodIt::restartGame(int level_, int nPlay_, int boardSize_)
 {
-    // Fill the board with new values
-    this->initializeBoard();
+    try
+    {
+        // Allocate the memory for the board with custom settings
+        this->board = new Matrix<int>(boardSize_, boardSize_);
 
-    // Turn the game settings to default
-    this->setGameSettings(this->getGameSetting()->difficultLevel,
-                           this->getGameSetting()->maxNPlay,
-                           this->getGameSetting()->boardSize);
+        // Initialize the game board
+        this->initializeBoard();
+
+        // Define the default game settings
+        this->setGameSettings(level_, nPlay_, boardSize_);
+    }
+    catch (const bad_alloc &exception)
+    {
+        // Here we need to take action
+        cerr << "\n[main()]: Error during the Flood-it board allocation!\n";
+
+        // Abort the program, used just in test case
+        assert(false);
+    }
 }
 
 /**

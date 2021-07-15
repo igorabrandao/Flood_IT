@@ -184,6 +184,7 @@ namespace GUI
       */
      void printSettings()
      {
+          printHeader();
           cout << endl
                << "===>CHOOSE THE GAME LEVEL<===";
           cout << endl

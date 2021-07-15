@@ -37,8 +37,9 @@ private:
     // ***************************************************
     // ** Functions
     // ***************************************************
-    int getRandomNumber() const;  // Function to generate random numbers
-    void initializeBoard() const; // Function to initialize the game board
+    int getRandomNumber() const;         // Function to generate random numbers
+    void initializeBoard() const;        // Function to initialize the game board
+    void setGameSettings(int, int, int); // Function to set-up the game settings
 
 public:
     // ***************************************************
@@ -55,14 +56,13 @@ public:
     // ***************************************************
     // ** Functions
     // ***************************************************
-    FloodIt(int boardSize_);              // Class constructor
-    ~FloodIt();                           // Class destructor
-    Matrix<int> *getBoard() const;        // Function to return the entire board
-    void setGameSettings(int, int, int);  // Function to set-up the game settings
-    CONFIG *getGameSetting();             // Function to return the game settings
-    void restartGame();                   // Function to restart the game
-    void floodBoard(int, int, int, int);  // Function to implement the flood mechanics
-    int isWinner();                       // Function to check if the player won the game
+    FloodIt(int boardSize_);             // Class constructor
+    ~FloodIt();                          // Class destructor
+    Matrix<int> *getBoard() const;       // Function to return the entire board
+    CONFIG *getGameSetting();            // Function to return the game settings
+    void restartGame(int, int, int);     // Function to restart the game
+    void floodBoard(int, int, int, int); // Function to implement the flood mechanics
+    int isWinner();                      // Function to check if the player won the game
 };
 
 #include "FloodIt.inl"

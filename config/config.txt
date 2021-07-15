@@ -1,3 +1,3 @@
-difficultLevel = 3
-maxNPlay = 45
-boardSize = 25
+difficultLevel = 1
+maxNPlay = 25
+boardSize = 14
